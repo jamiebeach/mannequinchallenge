@@ -1,5 +1,5 @@
 # How to execute this script
-# python custom_video_test_single_view.py "path/to/input/video.mp4" 
+# python custom_video_test_single_view.py "path/to/input/video.mp4" --input=single_view
 
 import torch
 from options.train_options import TrainOptions

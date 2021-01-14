@@ -51,7 +51,7 @@ available in `test_data/viz_predictions`.
 Run the signle_view inference using a custom video input, the depth measurement video will be saved in the 'mannequinchallenge/output_video.avi':
 
 ```
-(pytorch)$ python custom_video_test_single_view.py "path/to/input/video.mp4"
+(pytorch)$ python custom_video_test_single_view.py "path/to/input/video.mp4" --input=single_view
 ```
 
 ## Full Model Inference
