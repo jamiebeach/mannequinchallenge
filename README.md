@@ -46,6 +46,14 @@ Then run the DAVIS inference script:
 Once the run completes, visualizations of the output should be
 available in `test_data/viz_predictions`.
 
+### Run on custom video 
+
+Run the signle_view inference using a custom video input, the depth measurement video will be saved in the 'mannequinchallenge/output_video.avi':
+
+```
+(pytorch)$ python custom_video_test_single_view.py "path/to/input/video.mp4"
+```
+
 ## Full Model Inference
 
 The full model described in the paper requires several additional inputs: the
