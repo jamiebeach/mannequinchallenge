@@ -646,6 +646,39 @@ class Pix2PixModel(base_model.BaseModel):
 
             imsave(output_path, saved_imgs)
 
+    def run_custom_img(self, input_, save_path, index):
+        '''
+        Author: sehaba95
+        input:  input_: input image to measure the depth
+                save_path: path where to save the depth image (output)
+                index: used for depth image filename
+        '''
+        assert (self.num_input == 3)
+        input_imgs = autograd.Variable(input_.cuda(), requires_grad=False)
+
+        stack_inputs = input_imgs
+
+        # Predict the depth measurement using the input image
+        prediction_d, pred_confidence = self.netG.forward(stack_inputs)
+        pred_log_d = prediction_d.squeeze(1)
+        pred_d = torch.exp(pred_log_d)
+
+        saved_img = np.transpose(input_imgs[0, :, :, :].cpu().numpy(), (1, 2, 0))
+        pred_d_ref = pred_d.data[0, :, :].cpu().numpy()
+
+        # Prepare the saving path
+        output_path = save_path + 'image_'+ str(index) + '.jpg'
+        
+        # Prepare and concatenate the input and output images
+        disparity = 1. / pred_d_ref
+        disparity = disparity / np.max(disparity)
+        disparity = np.tile(np.expand_dims(disparity, axis=-1), (1, 1, 3))
+        saved_imgs = np.concatenate((saved_img, disparity), axis=1)
+        saved_imgs = (saved_imgs*255).astype(np.uint8)
+
+        # Save the concatenated images into a file 
+        imsave(output_path, saved_imgs)
+
     def switch_to_train(self):
         self.netG.train()
 
