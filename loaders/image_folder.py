@@ -280,3 +280,41 @@ class DAVISImageFolder(data.Dataset):
 
     def __len__(self):
         return len(self.img_list)
+
+
+class CUSTOMImageFolder(data.Dataset):
+
+    def __init__(self, list_path):
+        img_list = make_dataset(list_path)
+        if len(img_list) == 0:
+            raise(RuntimeError('Found 0 images in: ' + list_path))
+        self.list_path = list_path
+        self.img_list = img_list
+
+        self.resized_height = 288
+        self.resized_width = 512
+
+        self.use_pp = True
+
+    def load_imgs(self, img_path):
+        img = imread(img_path)
+        img = np.float32(img)/255.0
+        img = transform.resize(img, (self.resized_height, self.resized_width))
+
+        return img
+
+    def __getitem__(self, index):
+        targets_1 = {}
+
+        h5_path = self.img_list[index].rstrip()
+        img = self.load_imgs(h5_path)
+
+        final_img = torch.from_numpy(np.ascontiguousarray(
+            img).transpose(2, 0, 1)).contiguous().float()
+
+        targets_1['img_1_path'] = h5_path
+
+        return final_img, targets_1
+
+    def __len__(self):
+        return len(self.img_list)
