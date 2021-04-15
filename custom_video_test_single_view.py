@@ -82,6 +82,7 @@ print('========================= Video dataset #images = %d =========' %
       len(video_data_loader))
 
 eval_num_threads = 2
+sys.argv = sys.argv[1:]
 opt = TrainOptions().parse()  # set CUDA_VISIBLE_DEVICES before import torch
 
 # Load the prediction model
