@@ -38,7 +38,7 @@ def video_to_images(video_path):
 		if not ret:
 			break
 		# Prepare the output image filename
-		image_name = input_path+video_file_name+'_'+str(counter)+'.jpg'
+		image_name = input_path+video_file_name+'_'+str(counter).zfill(4)+'.jpg'
 		# Write the name into the dataset txt file
 		images_list.write(image_name+'\n')
 		# Save the image in the specified path
@@ -55,7 +55,7 @@ def video_to_images(video_path):
 
 def images_to_video(images_path, video_name = 'output_video.avi'):
 	img_array = []
-	for filename in glob.glob(images_path+'*'):
+	for filename in sorted(glob.glob(images_path+'*')):
 		print(filename)
 		img = cv2.imread(filename)
 		height, width, layers = img.shape
