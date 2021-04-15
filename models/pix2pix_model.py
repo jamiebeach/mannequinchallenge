@@ -667,7 +667,7 @@ class Pix2PixModel(base_model.BaseModel):
         pred_d_ref = pred_d.data[0, :, :].cpu().numpy()
 
         # Prepare the saving path
-        output_path = save_path + 'image_'+ str(index) + '.jpg'
+        output_path = save_path + 'image_'+ str(index).zfill(4) + '.jpg'
         
         # Prepare and concatenate the input and output images
         disparity = 1. / pred_d_ref
